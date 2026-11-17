@@ -1,0 +1,75 @@
+/* ============================================================
+   PokeCharm capture orb - sprite animation
+   sheet : pokecharm-orb-sheet.png  (1024 x 1280)
+   grid  : 8 columns x 10 rows, each cell 128 x 128
+   rows  : 0 idle | 1 hover | 2 pickup | 3 throw | 4 bounce | 5 open | 6 shake | 7 success | 8 escape | 9 release
+   usage : <div class="orb orb--idle"></div>
+   ============================================================ */
+
+.orb {
+  width: 128px;
+  height: 128px;
+  background-image: url("pokecharm-orb-sheet.png");
+  background-repeat: no-repeat;
+  background-size: 1024px 1280px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  flex: none;
+}
+.orb--idle { animation: orb-idle 888ms steps(8, end) infinite; }
+.orb--hover { animation: orb-hover 664ms steps(8, end) infinite; }
+.orb--pickup { animation: orb-pickup 568ms steps(8, end) 1; }
+.orb--throw { animation: orb-throw 536ms steps(8, end) infinite; }
+.orb--bounce { animation: orb-bounce 616ms steps(8, end) 1; }
+.orb--open { animation: orb-open 568ms steps(8, end) 1; }
+.orb--shake { animation: orb-shake 536ms steps(8, end) 1; }
+.orb--success { animation: orb-success 664ms steps(8, end) 1; }
+.orb--escape { animation: orb-escape 568ms steps(8, end) 1; }
+.orb--release { animation: orb-release 616ms steps(8, end) 1; }
+
+@keyframes orb-idle {
+  from { background-position: 0 -0px; }
+  to   { background-position: -1024px -0px; }
+}
+@keyframes orb-hover {
+  from { background-position: 0 -128px; }
+  to   { background-position: -1024px -128px; }
+}
+@keyframes orb-pickup {
+  from { background-position: 0 -256px; }
+  to   { background-position: -1024px -256px; }
+}
+@keyframes orb-throw {
+  from { background-position: 0 -384px; }
+  to   { background-position: -1024px -384px; }
+}
+@keyframes orb-bounce {
+  from { background-position: 0 -512px; }
+  to   { background-position: -1024px -512px; }
+}
+@keyframes orb-open {
+  from { background-position: 0 -640px; }
+  to   { background-position: -1024px -640px; }
+}
+@keyframes orb-shake {
+  from { background-position: 0 -768px; }
+  to   { background-position: -1024px -768px; }
+}
+@keyframes orb-success {
+  from { background-position: 0 -896px; }
+  to   { background-position: -1024px -896px; }
+}
+@keyframes orb-escape {
+  from { background-position: 0 -1024px; }
+  to   { background-position: -1024px -1024px; }
+}
+@keyframes orb-release {
+  from { background-position: 0 -1152px; }
+  to   { background-position: -1024px -1152px; }
+}
+
+/* scale the wrapper, never the element, so pixels stay crisp */
+.orb-stage { transform-origin: 50% 50%; }
+.orb-stage--sm { transform: scale(0.5); }
+.orb-stage--md { transform: scale(0.75); }
+.orb-stage--lg { transform: scale(1); }

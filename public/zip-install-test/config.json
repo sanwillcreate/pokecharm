@@ -1,0 +1,15 @@
+{
+  "companion": "bulbasaur",
+  "name": "Bulbasaur",
+  "size": {
+    "label": "Medium",
+    "renderedHeight": 96,
+    "widgetBox": 120
+  },
+  "assets": [
+    "assets/creatures/bulbasaur/pokecharm-grass-sheet.png",
+    "assets/creatures/bulbasaur/pokecharm-grass-atlas.json",
+    "assets/pokeball/pokecharm-orb-idle.png",
+    "assets/pokeball/pokecharm-orb-sheet.png"
+  ]
+}

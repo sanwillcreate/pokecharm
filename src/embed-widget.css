@@ -1,0 +1,189 @@
+:host {
+  position: fixed;
+  z-index: var(--embed-z-index, 2147483000);
+  width: var(--embed-size, 96px);
+  height: var(--embed-size, 96px);
+  color: var(--embed-text-accent, #34454c);
+  font-family: system-ui, sans-serif;
+  pointer-events: none;
+  background: transparent;
+  contain: layout style;
+}
+
+:host([data-position='bottom-right']) { right: var(--embed-edge-offset, 24px); bottom: var(--embed-edge-offset, 24px) }
+:host([data-position='bottom-left']) { left: var(--embed-edge-offset, 24px); bottom: var(--embed-edge-offset, 24px) }
+:host([data-position='top-right']) { right: var(--embed-edge-offset, 24px); top: var(--embed-edge-offset, 24px) }
+:host([data-position='top-left']) { left: var(--embed-edge-offset, 24px); top: var(--embed-edge-offset, 24px) }
+
+.pokecharm-embedded-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  background: transparent;
+}
+
+.pokecharm-embedded-art {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 0;
+  display: block;
+  padding: 0;
+  border: 0;
+  appearance: none;
+  background: transparent;
+  color: transparent;
+  line-height: 0;
+  cursor: pointer;
+  pointer-events: auto;
+  transform: translateX(-50%) scaleX(var(--pet-facing, 1));
+  transform-origin: center bottom;
+}
+
+.pokecharm-embedded-art:focus-visible { outline: 2px solid var(--embed-accent); outline-offset: 3px }
+.pokecharm-embedded-art.is-resting-orientation { transition: transform 140ms ease-out }
+.creature-sprite { display: block; overflow: hidden; background-repeat: no-repeat; image-rendering: pixelated; image-rendering: crisp-edges }
+
+.companion-speech {
+  position: absolute;
+  z-index: 3;
+  right: calc(100% - 12px);
+  bottom: 62%;
+  width: max-content;
+  max-width: min(210px, 72vw);
+  padding: 6px 9px;
+  border: 1px solid color-mix(in srgb, var(--embed-accent) 30%, white);
+  border-radius: 13px 13px 13px 5px;
+  background: color-mix(in srgb, var(--embed-secondary) 10%, #fffefa);
+  box-shadow: 0 2px 8px #263f4b18;
+  color: var(--embed-text-accent);
+  font-size: 11px;
+  line-height: 1.35;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .18s ease, visibility 0s linear .18s;
+}
+
+:host([data-position$='left']) .companion-speech { right: auto; left: calc(100% - 12px); border-radius: 13px 13px 5px 13px }
+:host([data-position^='top']) .companion-speech { top: 62%; bottom: auto }
+.companion-speech p { margin: 0 }
+.companion-speech.is-visible { opacity: 1; visibility: visible; transition: opacity .18s ease, visibility 0s }
+.companion-speech:after {
+  position: absolute;
+  right: -4px;
+  bottom: 8px;
+  width: 7px;
+  height: 7px;
+  border-right: 1px solid color-mix(in srgb, var(--embed-accent) 30%, white);
+  border-bottom: 1px solid color-mix(in srgb, var(--embed-accent) 30%, white);
+  background: color-mix(in srgb, var(--embed-secondary) 10%, #fffefa);
+  content: '';
+  transform: rotate(-45deg);
+}
+:host([data-position$='left']) .companion-speech:after { right: auto; left: -4px; transform: rotate(135deg) }
+.companion-speech-trail { display: none; position: absolute; right: -20px; bottom: 4px; width: 18px; height: 13px }
+.companion-speech[data-style='thought'] { border-radius: 15px 13px 15px 12px }
+.companion-speech[data-style='thought']:after { display: none }
+.companion-speech[data-style='thought'] .companion-speech-trail { display: block }
+.companion-speech-trail i { position: absolute; display: block; border: 1px solid color-mix(in srgb, var(--embed-accent) 22%, white); border-radius: 50%; background: #fffefa }
+.companion-speech-trail i:nth-child(1) { right: 0; bottom: 0; width: 6px; height: 6px }
+.companion-speech-trail i:nth-child(2) { right: 8px; bottom: -5px; width: 4px; height: 4px }
+.companion-speech-trail i:nth-child(3) { right: 14px; bottom: -9px; width: 3px; height: 3px }
+:host([data-position$='left']) .companion-speech-trail { right: auto; left: -20px; transform: scaleX(-1) }
+
+.companion-art.is-pokecharm-captured,
+.companion-speech.is-pokecharm-captured {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pokecharm-ball {
+  position: absolute;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: transparent;
+  cursor: grab;
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  transform: translate(-50%, -50%) rotate(var(--ball-rotation, 0deg));
+  transform-origin: center;
+  will-change: left, top, transform;
+}
+.pokecharm-ball:active { cursor: grabbing }
+.pokecharm-ball:focus-visible { outline: 2px solid var(--embed-accent); outline-offset: 3px }
+.pokecharm-ball-sprite {
+  display: block;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  pointer-events: none;
+}
+.pokecharm-ball.is-captured { cursor: pointer }
+.pokecharm-ball-message {
+  position: absolute;
+  z-index: 5;
+  width: max-content;
+  max-width: min(190px, 70vw);
+  padding: 6px 9px;
+  border: 1px solid color-mix(in srgb, var(--embed-accent) 30%, white);
+  border-radius: 13px 13px 13px 5px;
+  background: color-mix(in srgb, var(--embed-secondary) 10%, #fffefa);
+  box-shadow: 0 2px 8px #263f4b18;
+  color: var(--embed-text-accent);
+  font-size: 11px;
+  line-height: 1.35;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .18s ease, visibility 0s linear .18s;
+}
+.pokecharm-ball-message:after {
+  position: absolute;
+  left: var(--ball-message-tail-x, 12px);
+  bottom: -4px;
+  width: 7px;
+  height: 7px;
+  border-right: 1px solid color-mix(in srgb, var(--embed-accent) 30%, white);
+  border-bottom: 1px solid color-mix(in srgb, var(--embed-accent) 30%, white);
+  background: color-mix(in srgb, var(--embed-secondary) 10%, #fffefa);
+  content: '';
+  transform: rotate(45deg);
+}
+.pokecharm-ball-message[data-position='below']:after { top: -4px; bottom: auto; transform: translateX(-50%) rotate(225deg) }
+.pokecharm-ball-message[data-position='right']:after { top: var(--ball-message-tail-y, 50%); right: auto; bottom: auto; left: -4px; border: 0; border-left: 1px solid color-mix(in srgb, var(--embed-accent) 30%, white); border-bottom: 1px solid color-mix(in srgb, var(--embed-accent) 30%, white); transform: translateY(-50%) rotate(45deg) }
+.pokecharm-ball-message[data-position='left']:after { top: var(--ball-message-tail-y, 50%); right: -4px; bottom: auto; left: auto; border: 0; border-right: 1px solid color-mix(in srgb, var(--embed-accent) 30%, white); border-top: 1px solid color-mix(in srgb, var(--embed-accent) 30%, white); transform: translateY(-50%) rotate(45deg) }
+.pokecharm-ball-message.is-visible { opacity: 1; visibility: visible; transition: opacity .18s ease, visibility 0s }
+.pokecharm-ball-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+:host([data-viewport-stage='true']) { inset: 0; width: 100vw; height: 100vh; width: 100dvw; height: 100dvh }
+:host([data-viewport-stage='true']) .pokecharm-embedded-stage { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none }
+:host([data-viewport-stage='true']) .pokecharm-embedded-art { left: var(--pet-x, 50%); top: var(--pet-y, 50%); bottom: auto; transform: translate(var(--pet-anchor-x-offset, -50%), var(--pet-anchor-y-offset, -85px)) scaleX(var(--pet-facing, 1)); transform-origin: var(--pet-anchor-x, 50%) var(--pet-anchor-y, 85px) }
+:host([data-viewport-stage='true']) .companion-speech { right: auto; bottom: auto }
+:host([data-viewport-stage='false']) { position: absolute; inset: 0; width: 100%; height: 100% }
+:host([data-viewport-stage='false']) .pokecharm-embedded-stage { position: relative; width: 100%; height: 100%; pointer-events: none }
+:host([data-viewport-stage='false']) .pokecharm-embedded-art { left: var(--pet-x, 50%); top: var(--pet-y, calc(100% - 54px)); bottom: auto; transform: translate(var(--pet-anchor-x-offset, -50%), var(--pet-anchor-y-offset, -85px)) scaleX(var(--pet-facing, 1)); transform-origin: var(--pet-anchor-x, 50%) var(--pet-anchor-y, 85px) }
+:host([data-viewport-stage='false']) .companion-speech { right: auto; bottom: auto }
+
+@media (max-width: 640px) {
+  :host { width: var(--embed-mobile-size, 72px); height: var(--embed-mobile-size, 72px) }
+}
+@media (prefers-reduced-motion: reduce) { *, *:before, *:after { transition-duration: .01ms !important; animation-duration: .01ms !important } }
