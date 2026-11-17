@@ -5,6 +5,10 @@ import { getCreatureForCompanion } from './creature-registry'
 import { mountCompanionInstaller } from './companion-installer'
 import { mountHeroShowcase } from './hero-showcase'
 import { mountCompanionPreview } from './widget'
+import { inject } from '@vercel/analytics'
+
+// Initialize Vercel Web Analytics
+inject()
 
 const app = document.querySelector<HTMLElement>('#app')!
 
