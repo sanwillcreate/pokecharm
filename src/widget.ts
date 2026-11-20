@@ -6,7 +6,7 @@ import { chooseCompanionMessage, getCompanionMessage, type CompanionAction } fro
 import { getCreatureForCompanion, loadCreature, type LoadedCreature } from './creature-registry'
 import { createPokeballController } from './pokeball-controller'
 
-const animationActions: Record<Exclude<AnimationState, 'run' | 'walk' | 'evolution'>, CompanionAction> = {
+const animationActions: Record<Exclude<AnimationState, 'run' | 'walk'>, CompanionAction> = {
   idle: 'idle',
   jump: 'jump',
   attack: 'attack',
@@ -92,8 +92,7 @@ export function mountCompanionPreview(root: HTMLElement) {
         <div class="demo-controls">
           <div class="demo-control-heading"><div><span class="mini-label">YOUR COMPANION</span><h3>${escapeHtml(state.name)}</h3></div></div>
           <div class="animation-picker" aria-label="Preview companion animations"><span>ANIMATIONS</span>${animationStates.map((name) => `<button type="button" data-animation-choice="${name}" aria-pressed="${animation.current === name}" ${creature && (!loadedCreature || !loadedCreature.animations[name]) ? 'disabled' : ''}>${name}</button>`).join('')}</div>
-          <div class="settings-row"><label class="name-field">Name your companion<input aria-label="Companion name" maxlength="18" value="${escapeHtml(state.name)}"></label><label class="sound-control"><input type="checkbox" ${state.soundEnabled ? 'checked' : ''}><span class="toggle"></span><span>Sound ${state.soundEnabled ? 'on' : 'off'}</span></label></div>
-          <p class="sound-note">Sound preview is silent for now. Audio can be added through companion settings.</p>
+          <div class="settings-row"><label class="name-field">Name your companion<input aria-label="Companion name" maxlength="18" value="${escapeHtml(state.name)}"></label></div>
         </div>
       </section>`
 
@@ -194,16 +193,12 @@ export function mountCompanionPreview(root: HTMLElement) {
     })
     root.querySelectorAll<HTMLButtonElement>('[data-animation-choice]').forEach((button) => {
       button.addEventListener('click', () => {
-        const choice = button.dataset.animationChoice as Exclude<AnimationState, 'run' | 'walk' | 'evolution'>
+        const choice = button.dataset.animationChoice as Exclude<AnimationState, 'run' | 'walk'>
         playEvent(animationActions[choice], choice, choice === 'idle' || choice === 'sleep' ? 2500 : 1050)
       })
     })
     root.querySelector<HTMLInputElement>('.name-field input')?.addEventListener('change', (event) => {
       model.rename((event.currentTarget as HTMLInputElement).value)
-      render()
-    })
-    root.querySelector<HTMLInputElement>('.sound-control input')?.addEventListener('change', (event) => {
-      model.setSound((event.currentTarget as HTMLInputElement).checked)
       render()
     })
   }

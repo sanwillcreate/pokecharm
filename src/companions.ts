@@ -9,7 +9,7 @@ export interface Companion {
   body: string
   accent: string
   detail: string
-  dialogue: { greeting: string[]; idle: string[]; visitor: string[]; milestone: string[] }
+  dialogue: { greeting: string[]; idle: string[]; visitor: string[] }
   emotes: string[]
   idleStyle: 'bounce' | 'sway' | 'float' | 'nod'
   sound: { enabled: boolean; source?: string }
@@ -20,16 +20,15 @@ const sprite = (body: string, accent: string, detail: string) => `<svg viewBox="
 const lines = {
   greeting: ['Hello, visitor. I’m glad you found us.', 'A new face! This place feels warmer already.'],
   idle: ['I like it here. It feels like us.', 'I wonder what we’ll make next.', 'Just taking in the view.'],
-  visitor: ['Oh, someone’s here! I’ll say hello.', 'A visitor! Our little corner is growing.', 'There you are. Welcome in!'],
-  milestone: ['We did it together. Look how far we’ve come!', 'A little more of us in the world. Thank you.'],
+  visitor: ['Oh, someone’s here! I’ll say hello.', 'A visitor! I’m glad you stopped by.', 'There you are. Welcome in!'],
 }
 
 // Temporary original placeholders. Replace sprite fields and optional sound sources with licensed assets later.
 export const companions: Companion[] = [
-  { id: 'spark', label: 'Bright', defaultName: 'Pip', description: 'Pikachu · curious, quick to greet, always looking around.', body: '#4aaee0', accent: '#f0cf70', detail: '#fff0aa', dialogue: lines, emotes: ['A small wave', 'A curious look', 'A happy bounce'], idleStyle: 'bounce', sound: { enabled: false } },
-  { id: 'ember', label: 'Warm', defaultName: 'Charmender', description: 'Charmender · gentle, playful, and encouraging.', body: '#d98778', accent: '#efb87b', detail: '#ffe0a8', dialogue: { ...lines, idle: ['It’s nice when things feel welcoming.', 'I’ll keep this little place cozy.'] }, emotes: ['A soft nod', 'A content smile', 'A little stretch'], idleStyle: 'sway', sound: { enabled: false } },
-  { id: 'tide', label: 'Calm', defaultName: 'Squirtle', description: 'Squirtle · relaxed, witty, and cool-headed.', body: '#6e9fe8', accent: '#a8dfea', detail: '#d4f7ff', dialogue: { ...lines, idle: ['There’s a nice rhythm to this place.', 'I could sit by this window all day.'] }, emotes: ['A slow blink', 'A tiny wave', 'A restful sigh'], idleStyle: 'float', sound: { enabled: false } },
-  { id: 'moss', label: 'Steady', defaultName: 'Bulbasaur', description: 'Bulbasaur · gentle, patient, and dependable.', body: '#69a978', accent: '#b5d971', detail: '#e3f3b9', dialogue: { ...lines, idle: ['Little by little is still growing.', 'I like watching this place take shape.'] }, emotes: ['A pleased nod', 'A gentle stretch', 'A thoughtful look'], idleStyle: 'nod', sound: { enabled: false } },
+  { id: 'spark', label: 'Bright', defaultName: 'Pip', description: 'Curious, quick to greet, always looking around.', body: '#4aaee0', accent: '#f0cf70', detail: '#fff0aa', dialogue: lines, emotes: ['A small wave', 'A curious look', 'A happy bounce'], idleStyle: 'bounce', sound: { enabled: false } },
+  { id: 'ember', label: 'Warm', defaultName: 'Ember', description: 'Gentle, playful, and encouraging.', body: '#d98778', accent: '#efb87b', detail: '#ffe0a8', dialogue: { ...lines, idle: ['It’s nice when things feel welcoming.', 'I’ll keep this little place cozy.'] }, emotes: ['A soft nod', 'A content smile', 'A little stretch'], idleStyle: 'sway', sound: { enabled: false } },
+  { id: 'tide', label: 'Calm', defaultName: 'Tide', description: 'Relaxed, witty, and cool-headed.', body: '#6e9fe8', accent: '#a8dfea', detail: '#d4f7ff', dialogue: { ...lines, idle: ['There’s a nice rhythm to this place.', 'I could sit by this window all day.'] }, emotes: ['A slow blink', 'A tiny wave', 'A restful sigh'], idleStyle: 'float', sound: { enabled: false } },
+  { id: 'moss', label: 'Steady', defaultName: 'Moss', description: 'Gentle, patient, and dependable.', body: '#69a978', accent: '#b5d971', detail: '#e3f3b9', dialogue: { ...lines, idle: ['A little at a time feels just right.', 'I like watching this place take shape.'] }, emotes: ['A pleased nod', 'A gentle stretch', 'A thoughtful look'], idleStyle: 'nod', sound: { enabled: false } },
 ]
 
 export function getCompanionArt(companion: Companion) {

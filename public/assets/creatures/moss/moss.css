@@ -1,0 +1,90 @@
+/* ============================================================
+   PokeCharm grass companion - sprite animation kit
+   sheet : moss-sheet.png   (2400 x 1920 px)
+   grid  : 8 columns x 8 rows, each frame 300 x 240 px
+   rows  : idle 0 | walk 1 | run 2 | jump 3 | attack 4 |
+           hurt 5 | sleep 6 | happy 7
+   usage : <div class="wpet wpet--idle"></div>
+   ============================================================ */
+
+.wpet {
+  width: 300px;
+  height: 240px;
+  background-image: url("moss-sheet.png");
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: 2400px 1920px;   /* 8 * 300 , 8 * 240 - never let the sheet bleed */
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  will-change: background-position;
+}
+
+/* scale the pet without touching the pixel grid */
+.wpet-stage { display: inline-block; transform-origin: bottom center; }
+.wpet-stage--sm  { transform: scale(0.75); }
+.wpet-stage--lg  { transform: scale(1.5); }
+.wpet-stage--xl  { transform: scale(2); }
+
+/* jump / attack / hurt / happy are one-shots: switch back to
+   .wpet--idle on the animationend event (see the demo). */
+
+.wpet--idle { animation: wpet-idle 1144ms steps(8, end) infinite; }
+
+.wpet--walk { animation: wpet-walk 800ms steps(8, end) infinite; }
+
+.wpet--run { animation: wpet-run 568ms steps(8, end) infinite; }
+
+.wpet--jump { animation: wpet-jump 664ms steps(8, end) 1; }
+
+.wpet--attack { animation: wpet-attack 616ms steps(8, end) 1; }
+
+.wpet--hurt { animation: wpet-hurt 728ms steps(8, end) 1; }
+
+.wpet--sleep { animation: wpet-sleep 2000ms steps(8, end) infinite; }
+
+.wpet--happy { animation: wpet-happy 888ms steps(8, end) 1; }
+
+@keyframes wpet-idle {
+  from { background-position: 0 0px; }
+  to   { background-position: -2400px 0px; }
+}
+
+@keyframes wpet-walk {
+  from { background-position: 0 -240px; }
+  to   { background-position: -2400px -240px; }
+}
+
+@keyframes wpet-run {
+  from { background-position: 0 -480px; }
+  to   { background-position: -2400px -480px; }
+}
+
+@keyframes wpet-jump {
+  from { background-position: 0 -720px; }
+  to   { background-position: -2400px -720px; }
+}
+
+@keyframes wpet-attack {
+  from { background-position: 0 -960px; }
+  to   { background-position: -2400px -960px; }
+}
+
+@keyframes wpet-hurt {
+  from { background-position: 0 -1200px; }
+  to   { background-position: -2400px -1200px; }
+}
+
+@keyframes wpet-sleep {
+  from { background-position: 0 -1440px; }
+  to   { background-position: -2400px -1440px; }
+}
+
+@keyframes wpet-happy {
+  from { background-position: 0 -1680px; }
+  to   { background-position: -2400px -1680px; }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .wpet { animation: none !important; background-position: 0 0; }
+}

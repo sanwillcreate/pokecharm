@@ -15,7 +15,7 @@ export function mountHeroShowcase(host: HTMLElement) {
         ${[0, 1].map((slot) => `<div class="hero-showcase-layer ${slot === 0 ? 'is-active' : ''}" data-showcase-layer="${slot}"><div class="hero-showcase-pet"><div class="creature-sprite"></div></div></div>`).join('')}
       </div>
       <div class="hero-showcase-copy" aria-live="off">
-        <h2 data-showcase-name>Pikachu</h2>
+        <h2 data-showcase-name>Spark</h2>
         <p class="hero-showcase-personality" data-showcase-personality>Bright · Energetic · Curious</p>
         <p class="hero-showcase-description" data-showcase-description></p>
       </div>

@@ -3,15 +3,13 @@ import { mountCompanionWidget, type CompanionWidgetConfig } from './companion-wi
 
 interface WidgetHandle {
   destroy: () => void
-  play: (state: 'idle' | 'jump' | 'attack' | 'hurt' | 'sleep' | 'happy' | 'run' | 'walk' | 'evolution') => boolean
+  play: (state: 'idle' | 'jump' | 'attack' | 'hurt' | 'sleep' | 'happy' | 'run' | 'walk') => boolean
   say: (message: string, style: 'speech' | 'thought', duration?: number) => void
-  simulateMilestone: () => boolean
 }
 
 interface PokecharmWidgetApi {
   mount: (config: CompanionWidgetConfig, target?: HTMLElement) => WidgetHandle
   destroyAll: () => void
-  simulateMilestone: (target?: HTMLElement) => boolean
 }
 
 declare global {
@@ -44,10 +42,6 @@ const api: PokecharmWidgetApi = {
   destroyAll() {
     for (const [handle] of instances) handle.destroy()
   },
-  simulateMilestone(target) {
-    const entry = [...instances.entries()].find(([, host]) => !target || host === target)
-    return entry?.[0].simulateMilestone() ?? false
-  },
 }
 
 window.PokecharmWidget = api
@@ -64,7 +58,7 @@ if (script && script.dataset.noAutostart !== 'true') {
   const scriptUrl = new URL(script.src || document.baseURI, document.baseURI)
   const assetBase = data.assetsBase || new URL('/', scriptUrl).href
   const config: CompanionWidgetConfig = {
-    companion: data.companion || 'pikachu',
+    companion: data.companion || 'spark',
     name: data.name,
     size,
     position: data.position as CompanionWidgetConfig['position'],
@@ -72,9 +66,6 @@ if (script && script.dataset.noAutostart !== 'true') {
     clickToMove: data.clickToMove !== 'false',
     scrollReactions: data.scrollReactions !== 'false',
     followCursor: data.followCursor === 'true',
-    installationId: data.installationId,
-    publicSiteKey: data.siteKey,
-    visitEndpoint: data.visitEndpoint,
     assetBase,
   }
   const start = () => mount(config)

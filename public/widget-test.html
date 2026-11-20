@@ -28,7 +28,7 @@
     <p>This page loads <code>/widget.js</code> as a separate script. The companion should have a transparent background and stay fixed to the lower corner while this page scrolls.</p>
     <p>Drag the Pokéball in any direction to throw it. A throw can miss; a hit has a 70% capture chance. Click a captured ball to release your companion. Capture state is remembered locally for this site.</p>
     <div class="controls">
-      <label>Companion<select id="companion"><option value="pikachu">Pikachu</option><option value="charmender">Charmender</option><option value="squirtle">Squirtle</option><option value="bulbasaur">Bulbasaur</option></select></label>
+      <label>Companion<select id="companion"><option value="spark">Spark</option><option value="ember">Ember</option><option value="tide">Tide</option><option value="moss">Moss</option></select></label>
       <label>Name<input id="pet-name" value="Pip" maxlength="24"></label>
       <label>Position<select id="position"><option value="bottom-right">Bottom right</option><option value="bottom-left">Bottom left</option><option value="top-right">Top right</option><option value="top-left">Top left</option></select></label>
       <label>Size<select id="size"><option value="96,72">96 / 72 px</option><option value="128,96">128 / 96 px</option></select></label>
@@ -39,7 +39,7 @@
     <div id="status" role="status">Widget status: waiting for bundle…</div>
   </main>
   <section class="scroll-test-area" aria-label="Non-interactive scroll test area"><h2>Scroll here to test directional movement</h2></section>
-  <script src="/widget.js" data-companion="pikachu" data-name="Pip" data-position="bottom-right" data-size="96,72" data-click-to-move="true" data-scroll-reactions="true" async></script>
+  <script src="/widget.js" data-companion="spark" data-name="Pip" data-position="bottom-right" data-size="96,72" data-click-to-move="true" data-scroll-reactions="true" async></script>
   <script>
     const statusBox = document.querySelector('#status')
     const getApi = () => window.PokecharmWidget

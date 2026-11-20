@@ -1,0 +1,90 @@
+/* ============================================================
+   PokeCharm - fire pet sprite animation kit
+   sheet : ember-sheet.png   (2400 x 1920 px)
+   grid  : 8 columns x 8 rows, each cell 300 x 240 px
+   rows  : idle 0 | walk 1 | run 2 | jump 3 | attack 4 |
+           hurt 5 | sleep 6 | happy 7
+   usage : <div class="fpet fpet--idle"></div>
+   note  : the pet sits right of centre in each cell - the free
+           space on the left is where the fire breath travels.
+   ============================================================ */
+
+.fpet {
+  width: 300px;
+  height: 240px;
+  background-image: url("ember-sheet.png");
+  background-repeat: no-repeat;
+  background-size: 2400px 1920px;   /* 8 * 300 , 8 * 240 */
+  background-position: 0 0;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  will-change: background-position;
+}
+
+.fpet-stage { display: inline-block; transform-origin: bottom center; }
+.fpet-stage--lg { transform: scale(1.4); }
+.fpet-stage--sm { transform: scale(0.75); }
+
+/* jump / attack / hurt / happy are one-shots: switch back to
+   .fpet--idle on the animationend event (see the demo). */
+
+.fpet--idle { animation: fpet-idle 1144ms steps(8, end) infinite; }
+
+.fpet--walk { animation: fpet-walk 800ms steps(8, end) infinite; }
+
+.fpet--run { animation: fpet-run 568ms steps(8, end) infinite; }
+
+.fpet--jump { animation: fpet-jump 664ms steps(8, end) 1; }
+
+.fpet--attack { animation: fpet-attack 616ms steps(8, end) 1; }
+
+.fpet--hurt { animation: fpet-hurt 728ms steps(8, end) 1; }
+
+.fpet--sleep { animation: fpet-sleep 2000ms steps(8, end) infinite; }
+
+.fpet--happy { animation: fpet-happy 888ms steps(8, end) 1; }
+
+@keyframes fpet-idle {
+  from { background-position: 0 0px; }
+  to   { background-position: -2400px 0px; }
+}
+
+@keyframes fpet-walk {
+  from { background-position: 0 -240px; }
+  to   { background-position: -2400px -240px; }
+}
+
+@keyframes fpet-run {
+  from { background-position: 0 -480px; }
+  to   { background-position: -2400px -480px; }
+}
+
+@keyframes fpet-jump {
+  from { background-position: 0 -720px; }
+  to   { background-position: -2400px -720px; }
+}
+
+@keyframes fpet-attack {
+  from { background-position: 0 -960px; }
+  to   { background-position: -2400px -960px; }
+}
+
+@keyframes fpet-hurt {
+  from { background-position: 0 -1200px; }
+  to   { background-position: -2400px -1200px; }
+}
+
+@keyframes fpet-sleep {
+  from { background-position: 0 -1440px; }
+  to   { background-position: -2400px -1440px; }
+}
+
+@keyframes fpet-happy {
+  from { background-position: 0 -1680px; }
+  to   { background-position: -2400px -1680px; }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .fpet { animation: none !important; background-position: 0 0; }
+}

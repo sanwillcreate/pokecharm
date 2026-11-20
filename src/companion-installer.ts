@@ -7,15 +7,13 @@ import { createZipArchive } from './zip-archive'
 
 interface PreviewHandle {
   destroy: () => void
-  play: (state: 'idle' | 'jump' | 'attack' | 'hurt' | 'sleep' | 'happy' | 'run' | 'walk' | 'evolution') => boolean
+  play: (state: 'idle' | 'jump' | 'attack' | 'hurt' | 'sleep' | 'happy' | 'run' | 'walk') => boolean
   say: (message: string, style: 'speech' | 'thought', duration?: number) => void
-  simulateMilestone: () => boolean
 }
 
 interface PreviewApi {
   mount: (config: CompanionWidgetConfig, target?: HTMLElement) => PreviewHandle
   destroyAll: () => void
-  simulateMilestone: (target?: HTMLElement) => boolean
 }
 
 interface PreviewWindow extends Window {
@@ -37,7 +35,6 @@ export function mountCompanionInstaller(root: HTMLElement) {
   let widgetApiPromise: Promise<PreviewApi> | null = null
   let previewHandle: PreviewHandle | null = null
   let previewTimer = 0
-  let feedbackTimer = 0
   let destroyed = false
   const loadedCreatures = new Map<string, LoadedCreature>()
 
@@ -51,8 +48,6 @@ export function mountCompanionInstaller(root: HTMLElement) {
   const getName = () => getNameInput().value.trim() || getDefaultName()
   const getPreviewTarget = () => root.querySelector<HTMLElement>('.installer-preview-widget')!
   const previewStatus = () => root.querySelector<HTMLElement>('.installer-preview-status')!
-  const snippetNode = () => root.querySelector<HTMLElement>('#installer-code')!
-  const copyStatus = () => root.querySelector<HTMLElement>('.installer-copy-status')!
 
   root.innerHTML = `
     <div class="installer-layout">
@@ -87,46 +82,20 @@ export function mountCompanionInstaller(root: HTMLElement) {
       </section>
 
       <section class="installer-step installer-code-step">
-        <div class="installer-step-heading"><span>05</span><div><h3>Install your companion</h3><p>Choose the setup that works for your website.</p></div></div>
-        <div class="installer-method installer-zip-method"><div><h4>Download ZIP <span>Recommended</span></h4><p>A self-hosted package with the widget and companion assets, ready to upload to your website.</p></div><button class="installer-download-button" type="button">Download ZIP <span aria-hidden="true">↓</span></button></div>
+        <div class="installer-step-heading"><span>05</span><div><h3>Install your companion</h3><p>Download the self-hosted package for your website.</p></div></div>
+        <div class="installer-method installer-zip-method"><div><h4>Download ZIP </h4><p>A self-hosted package with the widget and companion assets, ready to upload to your website.</p></div><button class="installer-download-button" type="button">Download ZIP <span aria-hidden="true">↓</span></button></div>
         <p class="installer-download-status" role="status" aria-live="polite"></p>
-        <div class="installer-method installer-embed-method"><div><h4>Copy embed code</h4><p>This option loads the widget and its assets from Pokecharm’s hosted domain.</p></div><div class="installer-code-panel"><pre><code id="installer-code"></code></pre><button class="installer-copy-button" type="button"><span>Copy code</span><span aria-hidden="true">↗</span></button></div></div>
-        <p class="installer-url-note" role="note"></p>
-        <p class="installer-hosting-note">For the ZIP option, extract the download and upload its folder to a publicly accessible location on your website. The package README includes the self-hosting steps.</p>
-        <h4 class="installer-embed-instructions-heading">Embed code setup</h4>
+        <p class="installer-hosting-note">Extract the ZIP and upload the included <code>pokecharm-install</code> folder to a publicly accessible location on your website. The package README includes the script tag to add to your site.</p>
+        <h4 class="installer-instructions-heading">Self-hosting steps</h4>
         <ol class="installer-instructions">
-          <li>Copy the code above.</li>
-          <li>Open your website’s HTML or custom code settings.</li>
-          <li>Paste the script just before the closing <code>&lt;/body&gt;</code> tag.</li>
-          <li>Publish your website.</li>
-          <li>Refresh the website to see your companion.</li>
+          <li>Download and extract the ZIP package.</li>
+          <li>Upload the <code>pokecharm-install</code> folder to a public location on your site.</li>
+          <li>Copy the script tag from the package README and replace its example URLs.</li>
+          <li>Add the script tag to your website HTML before <code>&lt;/body&gt;</code>.</li>
+          <li>Publish your site and check that your companion appears.</li>
         </ol>
-        <p class="installer-platform-note">Platform-specific guides for WordPress, Shopify, React and other platforms can be added later.</p>
-        <p class="installer-copy-status" role="status" aria-live="polite"></p>
       </section>
     </div>`
-
-  const updateSnippet = () => {
-    const copyButton = root.querySelector<HTMLButtonElement>('.installer-copy-button')!
-    if (widgetInstallerConfig.hasPublicUrl) {
-      const snippetUrl = escapeAttribute(widgetInstallerConfig.installationUrl)
-      const companion = escapeAttribute(selectedCreature.id)
-      const name = escapeAttribute(getName())
-      const boxSize = getWidgetBoxSize()
-      const size = `${boxSize},${boxSize}`
-      snippetNode().textContent = `<script src="${snippetUrl}" data-companion="${companion}" data-name="${name}" data-size="${size}" async><\/script>`
-      copyButton.disabled = false
-    } else {
-      snippetNode().textContent = 'Hosted installation is not ready. A public widget URL has not been configured yet.'
-      copyButton.disabled = true
-    }
-    root.querySelector<HTMLElement>('.installer-url-note')!.textContent = widgetInstallerConfig.hasPublicUrl
-      ? 'Ready to install. The widget and companion assets will load from Pokecharm’s hosted domain.'
-      : 'Hosted installation is not ready. Configure VITE_POKECHARM_WIDGET_URL after the public widget is deployed.'
-    root.querySelector<HTMLOListElement>('.installer-instructions')!.hidden = !widgetInstallerConfig.hasPublicUrl
-    root.querySelector<HTMLElement>('.installer-embed-instructions-heading')!.hidden = !widgetInstallerConfig.hasPublicUrl
-    copyStatus().textContent = ''
-  }
 
   const selectedAssets = (creature = selectedCreature) => {
     const spritePath = creature.spriteSheetPath
@@ -229,7 +198,6 @@ export function mountCompanionInstaller(root: HTMLElement) {
       const [api, loaded] = await Promise.all([loadWidgetApi(), loadCreature(selectedCreature)])
       if (destroyed || generation !== previewGeneration) return
       loadedCreatures.set(loaded.id, loaded)
-      updateSnippet()
       previewHandle = api.mount({
         companion: selectedCreature.id,
         name: getName(),
@@ -269,7 +237,6 @@ export function mountCompanionInstaller(root: HTMLElement) {
       if (destroyed) return
       loadedCreatures.set(loaded.id, loaded)
       animation.setCreature(loaded)
-      if (selectedCreature.id === loaded.id) updateSnippet()
     }).catch((error: unknown) => {
       if (!destroyed) console.error(`Could not load ${creature.displayName} installer artwork`, error)
     })
@@ -283,19 +250,16 @@ export function mountCompanionInstaller(root: HTMLElement) {
         choice.setAttribute('aria-pressed', String(selected))
       })
       root.querySelector<HTMLElement>('.installer-preview-stage')!.style.setProperty('--preview-background', creature.theme.background)
-      updateSnippet()
       void updatePreview()
     })
   }
 
   getNameInput().addEventListener('input', () => {
-    updateSnippet()
     window.clearTimeout(previewTimer)
     previewTimer = window.setTimeout(() => void updatePreview(), 220)
   })
   getNameInput().addEventListener('blur', () => {
     if (!getNameInput().value.trim()) getNameInput().value = getDefaultName()
-    updateSnippet()
   })
 
   root.querySelectorAll<HTMLInputElement>('input[name="installer-size"]').forEach((input) => {
@@ -305,58 +269,18 @@ export function mountCompanionInstaller(root: HTMLElement) {
       root.querySelectorAll<HTMLElement>('.installer-size-option').forEach((option) => {
         option.classList.toggle('is-selected', option.querySelector('input') === input)
       })
-      updateSnippet()
       void updatePreview()
     })
   })
 
-  root.querySelector<HTMLButtonElement>('.installer-copy-button')!.addEventListener('click', async () => {
-    if (!widgetInstallerConfig.hasPublicUrl) return
-    const snippet = snippetNode().textContent ?? ''
-    let copied = false
-    try {
-      await navigator.clipboard.writeText(snippet)
-      copied = true
-      copyStatus().textContent = 'Copied. Your companion is ready for its new home.'
-    } catch {
-      const textArea = document.createElement('textarea')
-      textArea.value = snippet
-      textArea.setAttribute('readonly', '')
-      textArea.style.position = 'fixed'
-      textArea.style.opacity = '0'
-      document.body.append(textArea)
-      textArea.select()
-      copied = document.execCommand('copy')
-      textArea.remove()
-      if (copied) copyStatus().textContent = 'Copied. Your companion is ready for its new home.'
-      else {
-        const selection = window.getSelection()
-        const range = document.createRange()
-        range.selectNodeContents(snippetNode())
-        selection?.removeAllRanges()
-        selection?.addRange(range)
-        copyStatus().textContent = 'Select the highlighted code and copy it.'
-      }
-    }
-    const button = root.querySelector<HTMLButtonElement>('.installer-copy-button')!
-    button.querySelector('span')!.textContent = copied ? 'Copied' : 'Select code'
-    window.clearTimeout(feedbackTimer)
-    feedbackTimer = window.setTimeout(() => {
-      button.querySelector('span')!.textContent = 'Copy code'
-      copyStatus().textContent = ''
-    }, 2400)
-  })
-
   root.querySelector<HTMLButtonElement>('.installer-download-button')!.addEventListener('click', () => void downloadPackage())
 
-  updateSnippet()
   void updatePreview()
 
   return () => {
     if (destroyed) return
     destroyed = true
     window.clearTimeout(previewTimer)
-    window.clearTimeout(feedbackTimer)
     previewHandle?.destroy()
     previewHandle = null
     clearPreviewCapture()

@@ -2,13 +2,13 @@
 
 ## Project Direction
 
-Pokecharm is an embeddable virtual pet for websites. Its two planned experiences are a polished marketing and configuration website, and a virtual pet widget that can run on third-party sites. Website owners will eventually share a mascot that grows and evolves with unique daily visitors. Do not describe planned behavior as already implemented.
+Pokecharm is an embeddable virtual pet for websites. Its two planned experiences are a polished marketing and configuration website, and a virtual pet widget that can run on third-party sites. Companions greet visitors and react to interaction; visitor-count-based growth and evolution are not product behavior. Do not describe planned behavior as already implemented.
 
 Build the frontend foundation first. Keep the initial stack lightweight: Vite, TypeScript, vanilla JavaScript, browser DOM APIs, CSS, and pnpm. Do not add React, Next.js, a backend, database, authentication, payments, production visitor tracking, or analytics unless explicitly requested. Work in small milestones, inspect relevant files before changing them, and explain significant architectural decisions.
 
 ## Project Structure
 
-`index.html` is the app entry document. Frontend code lives in `src/`, with `src/main.ts` bootstrapping the page, `src/counter.ts` containing the current starter interaction, and `src/style.css` defining global styles. Put imported assets in `src/assets/`; files in `public/` are served as-is from the site root. As the product grows, keep UI, creature data, evolution logic, and widget functionality in clear modules. There is no test directory or test framework yet.
+`index.html` is the app entry document. Frontend code lives in `src/`, with `src/main.ts` bootstrapping the page, `src/counter.ts` containing the current starter interaction, and `src/style.css` defining global styles. Put imported assets in `src/assets/`; files in `public/` are served as-is from the site root. Keep UI, creature data, behavior, and widget functionality in clear modules. There is no test directory or test framework yet.
 
 ## Build and Development Commands
 
@@ -25,7 +25,7 @@ Run `pnpm build` to validate changes. There are currently no test or lint script
 
 Use the supplied Masko Studio screenshots as visual inspiration for oversized editorial typography, tight headline spacing, clear hierarchy, selective accent highlights, rounded framed panels, character-focused layouts, playful annotations, interactive demonstrations, whitespace, and responsive polish. Do not copy Masko branding, artwork, or proprietary assets.
 
-Sky blue is the primary accent, not orange. Starting tokens are primary `#54B8E8`, light blue `#8BD5F5`, pale blue `#DFF5FF`, white or near-white backgrounds, and near-black text. Treat these as adjustable starting points. Create original creatures, names, silhouettes, and artwork. Familiar evolution archetypes can inform the work, but never copy Pokémon characters, names, logos, or assets.
+Sky blue is the primary accent, not orange. Starting tokens are primary `#54B8E8`, light blue `#8BD5F5`, pale blue `#DFF5FF`, white or near-white backgrounds, and near-black text. Treat these as adjustable starting points. Create original creatures, names, silhouettes, and artwork. Familiar creature archetypes can inform the work, but never copy Pokémon characters, names, logos, or assets.
 
 ## Coding Conventions and Engineering
 

@@ -25,17 +25,13 @@ export interface CompanionWidgetConfig {
   /** Optional legacy mode. Disabled by default. */
   followCursor?: boolean
   installationId?: string
-  publicSiteKey?: string
-  visitEndpoint?: string
   onAction?: (action: 'pat' | 'hurt') => void
   onStatus?: (status: CompanionWidgetStatus) => void
 }
 
 export interface CompanionWidgetStatus {
-  state: 'loading' | 'ready' | 'connected' | 'local-only' | 'offline' | 'error'
+  state: 'loading' | 'ready' | 'error'
   message: string
-  totalVisitors?: number
-  evolutionStage?: string
 }
 
 export const defaultCompanionWidgetConfig = {
@@ -45,20 +41,10 @@ export const defaultCompanionWidgetConfig = {
   zIndex: 2147483000,
 }
 
-interface VisitGrowthState {
-  counted: boolean
-  totalVisitors: number
-  evolutionStage: string
-  stageChanged: boolean
-  progress: number
-  nextMilestone: number | null
-}
-
 const behaviourPriority = {
   idle: 0,
   sleep: 1,
   autonomousJump: 2,
-  milestone: 3,
   movement: 4,
   visitorReaction: 5,
   secretJump: 6,
@@ -127,7 +113,6 @@ export function mountCompanionWidget(
   let priorityTimer = 0
   let currentPriority = 0
   let priorityUntil = 0
-  let pendingMilestone = false
   let sleepDeadline = 0
   let clickSequenceStartedAt = 0
   let clickSequenceCount = 0
@@ -210,10 +195,6 @@ export function mountCompanionWidget(
     scheduleThought()
     armSleepTimer()
     scheduleAutonomousJump()
-    if (pendingMilestone) {
-      pendingMilestone = false
-      playMilestone()
-    }
   }
 
   const playEvent = (action: CompanionAction, animationState: AnimationState, priority: number) => {
@@ -264,22 +245,10 @@ export function mountCompanionWidget(
   function completePriority() {
     clearPriority()
     chase.refreshMovement()
-    if (pendingMilestone && !sleeping && !waking) {
-      pendingMilestone = false
-      playMilestone()
-    }
-  }
-
-  const playMilestone = () => {
-    if (!loadedCreature) return false
-    const evolutionAnimation = loadedCreature.animations.evolution ? 'evolution' : 'happy'
-    const played = playEvent('evolution', evolutionAnimation, behaviourPriority.milestone)
-    if (!played) pendingMilestone = true
-    return played
   }
 
   const sessionId = getSessionId()
-  const sessionGreetingKey = `pokecharm:greeted:${config.installationId ?? creature.id}:${sessionId}`
+  const sessionGreetingKey = `pokecharm:greeted:${creature.id}:${sessionId}`
   const greetOnce = () => {
     if (sessionStorageGet(sessionGreetingKey)) return
     sessionStorageSet(sessionGreetingKey, 'yes')
@@ -593,36 +562,6 @@ export function mountCompanionWidget(
   document.addEventListener('keydown', onKeyDown)
   if (scrollReactions) window.addEventListener('scroll', onScroll, { passive: true })
 
-  const visitGrowth = async (): Promise<VisitGrowthState | null> => {
-    if (!config.installationId || !config.publicSiteKey) {
-      status({ state: 'local-only', message: 'Local widget mode · visitor tracking is not connected' })
-      return null
-    }
-    try {
-      const response = await fetch(config.visitEndpoint ?? '/functions/v1/record-widget-visit', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          installationId: config.installationId,
-          publicSiteKey: config.publicSiteKey,
-          sessionId,
-          companionId: creature.id,
-          companionName: config.name?.trim() || creature.displayName,
-          origin: window.location.origin,
-        }),
-      })
-      if (!response.ok) throw new Error(`Visit endpoint returned ${response.status}`)
-      const growth = await response.json() as VisitGrowthState
-      status({ state: 'connected', message: 'Connected to website growth', totalVisitors: growth.totalVisitors, evolutionStage: growth.evolutionStage })
-      window.dispatchEvent(new CustomEvent('pokecharm:growth', { detail: { ...growth, installationId: config.installationId } }))
-      return growth
-    } catch (error) {
-      status({ state: 'offline', message: 'Widget is running locally · growth service is unavailable' })
-      console.warn('Pokecharm visitor tracking is unavailable', error)
-      return null
-    }
-  }
-
   status({ state: 'loading', message: `Loading ${creature.displayName}` })
   void loadCreature(creature).then(async (loaded) => {
     if (destroyed) return
@@ -708,13 +647,7 @@ export function mountCompanionWidget(
     armSleepTimer()
     scheduleAutonomousJump()
 
-    const growth = await visitGrowth()
-    if (destroyed) return
-    if (growth?.stageChanged) {
-      runAfterWake(playMilestone, behaviourPriority.milestone)
-    } else if (growth?.counted || !growth) {
-      runAfterWake(greetOnce)
-    }
+    runAfterWake(greetOnce)
   }).catch((error: unknown) => {
     if (destroyed) return
     status({ state: 'error', message: `Could not load ${creature.displayName}` })
@@ -737,8 +670,7 @@ export function mountCompanionWidget(
       const action: CompanionAction = state === 'jump' ? 'jump'
         : state === 'attack' ? 'attack'
           : state === 'hurt' ? 'hurt'
-            : state === 'evolution' ? 'evolution'
-                : 'happy'
+            : 'happy'
       if (state === 'sleep') {
         enterSleep()
         return true
@@ -750,17 +682,11 @@ export function mountCompanionWidget(
           played = true
           return
         }
-        const priority = state === 'evolution' ? behaviourPriority.milestone : behaviourPriority.visitorReaction
-        played = playEvent(action, state, priority)
+        played = playEvent(action, state, behaviourPriority.visitorReaction)
       })
       return played || sleeping || waking
     },
     say,
-    simulateMilestone() {
-      if (!loadedCreature || ballBusy || companionCaptured) return false
-      runAfterWake(playMilestone, behaviourPriority.milestone)
-      return true
-    },
     destroy() {
       if (destroyed) return
       destroyed = true

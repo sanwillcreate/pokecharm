@@ -1,0 +1,446 @@
+/* Pokecharm brand layer. Loads after style.css and installer.css, so these rules take precedence. */
+
+:root {
+  --display: 'Space Grotesk', sans-serif;
+  --brand-ink: #19262d;
+  --brand-deep: #2f8fbd;
+}
+
+/* Wordmark: tight display setting with a single square pixel, a quiet nod to the companions. */
+.wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  font: 700 25px/1 var(--display);
+  letter-spacing: -0.045em;
+  color: var(--brand-ink);
+}
+.wordmark-pixel {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 3px;
+  background: var(--blue);
+  box-shadow: 0 0 0 1px var(--blue);
+}
+
+/* Header and navigation */
+.site-header {
+  height: 84px;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  
+}
+.site-nav {
+  display: flex;
+  gap: 36px;
+}
+.site-nav a,
+.footer-nav a {
+  position: relative;
+  padding: 6px 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: #3c4d54;
+  transition: color 0.2s;
+}
+.site-nav a::after,
+.footer-nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--blue);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.site-nav a:hover,
+.site-nav a:focus-visible,
+.footer-nav a:hover,
+.footer-nav a:focus-visible {
+  color: var(--ink);
+}
+.site-nav a:hover::after,
+.site-nav a:focus-visible::after,
+.footer-nav a:hover::after,
+.footer-nav a:focus-visible::after {
+  transform: scaleX(1);
+}
+.header-cta {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.header-cta:hover {
+  background: #354952;
+}
+
+/* Hero */
+.hero {
+  min-height: 600px;
+  gap: 64px;
+}
+.hero h1 {
+  max-width: 620px;
+  margin: 26px 0 22px;
+  font: 700 clamp(54px, 6.6vw, 88px)/0.96 var(--display);
+  letter-spacing: -0.05em;
+}
+.hero h1 em {
+  color: #3aa3d6;
+}
+.hero-subtitle {
+  max-width: 460px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: #5f7079;
+}
+.hero-actions {
+  margin-top: 34px;
+}
+.button {
+  min-height: 50px;
+  padding: 0 24px;
+  border-radius: 999px;
+  font-size: 13px;
+}
+.button-dark {
+  background: var(--ink);
+}
+.button-light {
+  background: #fff;
+  color: var(--ink);
+}
+.button-light:hover {
+  background: #f1fafd;
+}
+
+/* Section headings */
+.section-heading h2,
+.experience-layout h2,
+.closing-inner h2 {
+  font: 700 clamp(40px, 4.6vw, 60px)/1 var(--display);
+  letter-spacing: -0.045em;
+}
+.section-heading > p {
+  font-size: 15px;
+  line-height: 1.7;
+}
+.section-pad {
+  padding: 116px 0;
+}
+
+/* Personality selector: real creature artwork, not plain form options */
+.demo-selection {
+  padding: 22px;
+  border-radius: 12px;
+}
+.demo-selection .field-label {
+  font-size: 10px;
+  letter-spacing: 0.6px;
+}
+.selection-list {
+  gap: 10px;
+  margin-top: 16px;
+}
+.selection-option {
+  grid-template-columns: 60px 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+.selection-option:hover {
+  border-color: #c9e9f6;
+  background: #f8fcfe;
+  transform: translateY(-1px);
+}
+.selection-option.active {
+  border-color: var(--blue);
+  background: #f1f9fc;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--blue) 22%, transparent);
+}
+.selection-thumb {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--swatch, #54b8e8) 14%, #fff);
+}
+.selection-thumb-art {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: block;
+  transform: translate(-50%, -50%) scale(0.5);
+  transform-origin: 50% 50%;
+}
+.selection-copy b {
+  display: block;
+  font: 600 16px/1.2 var(--display);
+  color: var(--ink);
+}
+.selection-copy small {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #74858c;
+}
+.selection-note {
+  display: none;
+}
+
+/* How it works: an editorial list instead of template cards */
+.steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--ink);
+}
+.step {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+  padding: 36px 0;
+  border-bottom: 1px solid var(--line);
+}
+.step-number {
+  font: 700 54px/0.9 var(--display);
+  letter-spacing: -0.04em;
+  color: #bfe6f6;
+}
+.step h3 {
+  margin: 4px 0 10px;
+  font: 700 26px/1.1 var(--display);
+  letter-spacing: -0.03em;
+}
+.step p {
+  max-width: 540px;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #6f7e84;
+}
+
+/* Experience */
+.experience-layout {
+  gap: 90px;
+}
+.experience-list article {
+  grid-template-columns: 36px minmax(0, 1fr);
+  padding: 24px 0;
+}
+.experience-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+   border-top: none !important;
+}
+.experience-list li {
+  list-style: none;
+  
+}
+
+.experience-list li::marker {
+  content: "";
+}
+.experience-list h3 {
+  font: 700 19px/1.2 var(--display);
+  letter-spacing: -0.02em;
+}
+.experience-list p {
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+/* Closing */
+.closing-section {
+  background: var(--pale);
+}
+.closing-inner {
+  min-height: 380px;
+  gap: 0;
+}
+.closing-line {
+  margin: 0 0 18px;
+  font-size: 12px;
+  color: #4f7380;
+}
+.closing-inner h2 {
+  margin: 0 0 34px;
+}
+
+/* Footer: a branded close rather than a utility strip */
+.site-footer {
+  display: block;
+  min-height: 0;
+  padding: 96px 0 40px;
+  background: var(--ink);
+  color: #fff;
+}
+.footer-statement {
+  margin: 0;
+  font: 700 clamp(48px, 8vw, 110px)/0.92 var(--display);
+  letter-spacing: -0.055em;
+}
+.footer-statement em {
+  font-style: normal;
+  color: var(--light-blue);
+}
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px 36px;
+  flex-wrap: wrap;
+  margin-top: 64px;
+  padding-top: 26px;
+  border-top: 1px solid #2b3d45;
+}
+.site-footer .wordmark {
+  color: #fff;
+  font-size: 20px;
+}
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.footer-nav a {
+  color: #a9bac0;
+  font-size: 12px;
+}
+.footer-nav a:hover,
+.footer-nav a:focus-visible {
+  color: #fff;
+}
+.footer-social-link {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  align-items: center;
+  justify-content: center;
+  color: #a9bac0;
+  transition: color 180ms ease;
+}
+.footer-social-link:hover,
+.footer-social-link:focus-visible {
+  color: #fff;
+}
+.footer-social-link svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+.footer-social-link:focus-visible {
+  outline: 2px solid var(--light-blue);
+  outline-offset: 4px;
+}
+.site-footer small {
+  color: #7f9199;
+  font-size: 11px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .hero {
+    gap: 40px;
+  }
+  .step {
+    grid-template-columns: 80px minmax(0, 1fr);
+    gap: 18px;
+  }
+  .experience-layout {
+    gap: 56px;
+  }
+}
+
+@media (max-width: 650px) {
+  .site-header {
+    height: auto;
+    flex-wrap: wrap;
+    row-gap: 14px;
+    padding: 16px 0 0;
+  }
+  .site-nav {
+    order: 3;
+    width: 100%;
+    gap: 22px;
+    overflow-x: auto;
+    padding-bottom: 14px;
+    border-top: 1px solid var(--line);
+    padding-top: 12px;
+  }
+  .site-nav a {
+    white-space: nowrap;
+  }
+  .hero h1 {
+    font-size: clamp(46px, 13vw, 62px);
+    letter-spacing: -0.045em;
+  }
+  .hero-subtitle {
+    font-size: 15px;
+  }
+  .section-pad {
+    padding: 80px 0;
+  }
+  .step {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 26px 0;
+  }
+  .step-number {
+    font-size: 40px;
+  }
+  .step h3 {
+    font-size: 22px;
+  }
+  .selection-list {
+    grid-template-columns: 1fr;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .site-footer {
+    padding: 72px 0 32px;
+  }
+  .footer-statement {
+    font-size: clamp(44px, 14vw, 64px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav a::after,
+  .footer-nav a::after {
+    transition: none;
+  }
+}
+
+/* Override the legacy mobile rule that hid all header navigation. */
+@media (max-width: 650px) {
+  .site-header .site-nav {
+    display: flex;
+  }
+}

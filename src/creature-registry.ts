@@ -1,7 +1,7 @@
 import type { CompanionId } from './companions'
 import { creatureDialogues, type CompanionDialogue } from './dialogue'
 
-export type CreatureAnimationName = 'idle' | 'walk' | 'run' | 'jump' | 'attack' | 'hurt' | 'sleep' | 'happy' | 'evolution'
+export type CreatureAnimationName = 'idle' | 'walk' | 'run' | 'jump' | 'attack' | 'hurt' | 'sleep' | 'happy'
 type FrameRect = [number, number, number, number]
 
 export interface CreatureAnimationDefinition {
@@ -74,8 +74,8 @@ export interface LoadedCreature extends CreatureConfig {
 
 export const creatureRegistry: CreatureConfig[] = [
   {
-    id: 'pikachu',
-    displayName: 'Pikachu',
+    id: 'spark',
+    displayName: 'Spark',
     companionId: 'spark',
     personality: 'Bright',
     themeName: 'Electric',
@@ -88,8 +88,8 @@ export const creatureRegistry: CreatureConfig[] = [
     },
     showcaseTraits: 'Bright · Energetic · Curious',
     showcaseDescription: 'A cheerful spark, always curious about who might stop by.',
-    spriteSheetPath: '/assets/creatures/pikachu/pokecharm_sprite_sheet.png',
-    atlasPath: '/assets/creatures/pikachu/pokecharm_atlas.json',
+    spriteSheetPath: '/assets/creatures/spark/spark-sheet.png',
+    atlasPath: '/assets/creatures/spark/spark-atlas.json',
     displayHeight: 100,
     dialogue: creatureDialogues.spark,
     autonomy: {
@@ -101,8 +101,8 @@ export const creatureRegistry: CreatureConfig[] = [
     behavior: { followAnimation: 'run', flipsToTravelDirection: true },
   },
   {
-    id: 'charmender',
-    displayName: 'Charmender',
+    id: 'ember',
+    displayName: 'Ember',
     companionId: 'ember',
     personality: 'Warm',
     themeName: 'Fire',
@@ -115,8 +115,8 @@ export const creatureRegistry: CreatureConfig[] = [
     },
     showcaseTraits: 'Warm · Playful · Enthusiastic',
     showcaseDescription: 'A playful little flame with a warm welcome for everyone.',
-    spriteSheetPath: '/assets/creatures/charmender/pokecharm-fire-sheet.png',
-    atlasPath: '/assets/creatures/charmender/pokecharm-fire-atlas.json',
+    spriteSheetPath: '/assets/creatures/ember/ember-sheet.png',
+    atlasPath: '/assets/creatures/ember/ember-atlas.json',
     displayHeight: 100,
     dialogue: creatureDialogues.ember,
     autonomy: {
@@ -128,8 +128,8 @@ export const creatureRegistry: CreatureConfig[] = [
     behavior: { followAnimation: 'run', flipsToTravelDirection: true },
   },
   {
-    id: 'squirtle',
-    displayName: 'Squirtle',
+    id: 'tide',
+    displayName: 'Tide',
     companionId: 'tide',
     personality: 'Calm',
     themeName: 'Water',
@@ -141,9 +141,9 @@ export const creatureRegistry: CreatureConfig[] = [
       textAccent: '#2c7184',
     },
     showcaseTraits: 'Calm · Relaxed · Witty',
-    showcaseDescription: 'Cool-headed and easygoing, Squirtle makes everyone feel at home.',
-    spriteSheetPath: '/assets/creatures/squirtle/pokecharm-water-sheet.png',
-    atlasPath: '/assets/creatures/squirtle/pokecharm-water-atlas.json',
+    showcaseDescription: 'Cool-headed and easygoing, Tide makes everyone feel at home.',
+    spriteSheetPath: '/assets/creatures/tide/tide-sheet.png',
+    atlasPath: '/assets/creatures/tide/tide-atlas.json',
     displayHeight: 100,
     dialogue: creatureDialogues.tide,
     autonomy: {
@@ -155,8 +155,8 @@ export const creatureRegistry: CreatureConfig[] = [
     behavior: { followAnimation: 'run', flipsToTravelDirection: true },
   },
   {
-    id: 'bulbasaur',
-    displayName: 'Bulbasaur',
+    id: 'moss',
+    displayName: 'Moss',
     companionId: 'moss',
     personality: 'Steady',
     themeName: 'Grass',
@@ -168,9 +168,9 @@ export const creatureRegistry: CreatureConfig[] = [
       textAccent: '#57733d',
     },
     showcaseTraits: 'Steady · Gentle · Dependable',
-    showcaseDescription: 'A gentle, steady friend who helps this little corner grow.',
-    spriteSheetPath: '/assets/creatures/bulbasaur/pokecharm-grass-sheet.png',
-    atlasPath: '/assets/creatures/bulbasaur/pokecharm-grass-atlas.json',
+    showcaseDescription: 'A gentle, steady friend who brings a little calm to this corner.',
+    spriteSheetPath: '/assets/creatures/moss/moss-sheet.png',
+    atlasPath: '/assets/creatures/moss/moss-atlas.json',
     displayHeight: 100,
     dialogue: creatureDialogues.moss,
     autonomy: {

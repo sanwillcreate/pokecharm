@@ -4,7 +4,18 @@
 .installer-step{padding:27px 0;border-bottom:1px solid #edf1f2}
 .installer-step:last-child{border-bottom:0}
 .installer-step-heading{display:flex;align-items:center;gap:13px;margin-bottom:19px}
-.installer-step-heading>span:first-child{display:grid;place-items:center;flex:none;width:29px;height:29px;border-radius:50%;background:#e9f7fc;color:#368caf;font:9px var(--mono)}
+.installer-step-heading>span:first-child{
+  display:grid;
+  place-items:center;
+  flex:none;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  background:#e9f7fc;
+  color:#287fa5;
+  font:700 11px/1 var(--display);
+  letter-spacing:-.3px;
+}
 .installer-step-heading h3{margin:0;color:#24343a;font:600 15px var(--display);letter-spacing:-.25px}
 .installer-step-heading p{margin:4px 0 0;color:#7a898f;font-size:10px;line-height:1.5}
 .installer-companion-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
@@ -50,26 +61,109 @@
 .installer-download-button:disabled{opacity:.58;cursor:wait}
 .installer-download-button span{font-size:14px}
 .installer-download-status{min-height:16px;margin:0;color:#368caf;font-size:9px;line-height:1.5}
-.installer-embed-method{grid-template-columns:1fr;align-items:start;padding-bottom:8px}
-.installer-embed-method .installer-code-panel{margin-top:11px}
-.installer-copy-button:disabled{opacity:.45;cursor:not-allowed}
-.installer-hosting-note{margin:19px 0 -8px;color:#657980;font-size:9px;line-height:1.55}
-.installer-embed-instructions-heading{margin:25px 0 -7px;color:#667980;font:600 10px var(--display)}
-.installer-code-panel{position:relative;display:flex;min-height:76px;align-items:center;gap:12px;padding:15px 16px;border-radius:6px;background:#192a31;color:#dff5ff}
-.installer-code-panel pre{flex:1;min-width:0;margin:0;overflow-x:auto;white-space:pre-wrap;overflow-wrap:anywhere}
-.installer-code-panel pre code{font:10px/1.7 var(--mono);color:inherit}
-.installer-copy-button{display:flex;flex:none;align-items:center;gap:9px;min-height:36px;padding:0 12px;border:1px solid #42606b;border-radius:4px;background:#263d46;color:#fff;font-size:10px;font-weight:600;cursor:pointer;transition:background .15s,border-color .15s}
-.installer-copy-button:hover{border-color:#75c8e8;background:#31505c}
-.installer-copy-button:focus-visible{outline:2px solid #8bd5f5;outline-offset:2px}
-.installer-copy-button>span:last-child{color:#8bd5f5}
-.installer-url-note{margin:9px 0 0;color:#788a91;font-size:9px;line-height:1.55}
+.installer-hosting-note{margin:19px 0 0;color:#657980;font-size:9px;line-height:1.55}
+.installer-instructions-heading{margin:23px 0 -7px;color:#667980;font:600 10px var(--display)}
 .installer-instructions{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;margin:23px 0 0;padding:0;list-style:none;counter-reset:install-step}
 .installer-instructions li{position:relative;padding:27px 0 0;color:#566970;font-size:10px;line-height:1.5;counter-increment:install-step}
 .installer-instructions li:before{position:absolute;top:0;left:0;color:#4aa9d2;font:9px var(--mono);content:'0' counter(install-step)}
 .installer-instructions code{padding:2px 4px;border-radius:3px;background:#eef7fa;color:#317d9b;font:9px var(--mono)}
-.installer-platform-note{margin:20px 0 0;padding-top:13px;border-top:1px solid #edf1f2;color:#839197;font-size:9px;line-height:1.55}
-.installer-copy-status{min-height:16px;margin:8px 0 0;color:#368caf;font-size:10px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @media(max-width:900px){.installer-layout{padding-inline:22px}.installer-companion-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.installer-companion-choice{min-height:94px}.installer-instructions{gap:10px}}
-@media(max-width:650px){.installer-layout{padding-inline:15px}.installer-step{padding:22px 0}.installer-companion-grid{gap:7px}.installer-companion-choice{min-height:84px;gap:5px;padding:8px 6px}.installer-choice-art{width:48px;height:58px}.installer-choice-copy b{font-size:8px}.installer-choice-copy>span{font-size:10px}.installer-personalize{grid-template-columns:1fr;gap:0}.installer-personalize .installer-step:first-child{padding-bottom:6px}.installer-personalize .installer-step:last-child{padding-top:18px}.installer-live-label{font-size:0}.installer-live-label i{width:7px;height:7px}.installer-preview-stage{min-height:225px}.installer-preview-site-copy{top:21px;left:17px;max-width:145px}.installer-preview-site-copy p{font-size:15px}.installer-method{grid-template-columns:1fr;align-items:start;gap:12px}.installer-download-button{justify-self:start}.installer-code-panel{align-items:flex-start;flex-direction:column}.installer-code-panel pre{width:100%;padding-right:0}.installer-copy-button{align-self:flex-end}.installer-instructions{grid-template-columns:1fr;gap:0;margin-top:17px}.installer-instructions li{padding:5px 0 5px 34px}.installer-instructions li:before{top:6px}.installer-platform-note{margin-top:15px}}
+@media(max-width:650px){.installer-layout{padding-inline:15px}.installer-step{padding:22px 0}.installer-companion-grid{gap:7px}.installer-companion-choice{min-height:84px;gap:5px;padding:8px 6px}.installer-choice-art{width:48px;height:58px}.installer-choice-copy b{font-size:8px}.installer-choice-copy>span{font-size:10px}.installer-personalize{grid-template-columns:1fr;gap:0}.installer-personalize .installer-step:first-child{padding-bottom:6px}.installer-personalize .installer-step:last-child{padding-top:18px}.installer-live-label{font-size:0}.installer-live-label i{width:7px;height:7px}.installer-preview-stage{min-height:225px}.installer-preview-site-copy{top:21px;left:17px;max-width:145px}.installer-preview-site-copy p{font-size:15px}.installer-method{grid-template-columns:1fr;align-items:start;gap:12px}.installer-download-button{justify-self:start}.installer-instructions{grid-template-columns:1fr;gap:0;margin-top:17px}.installer-instructions li{padding:5px 0 5px 34px}.installer-instructions li:before{top:6px}}
 @media(prefers-reduced-motion:reduce){.installer-companion-choice{transition:none}}
+
+/* Pokecharm installer — typography polish */
+
+.installer-step-heading h3 {
+  font-size: 16px;
+  font-weight: 650;
+  letter-spacing: -0.35px;
+  color: #1c2b32;
+}
+
+.installer-step-heading p {
+  font-size: 12px;
+  font-weight: 450;
+  color: #657780;
+  line-height: 1.6;
+}
+
+.installer-name-field {
+  font-size: 12px;
+  font-weight: 600;
+  color: #435761;
+}
+
+.installer-choice-copy b {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15px;
+}
+
+.installer-choice-copy > span {
+  font-size: 13px;
+  font-weight: 650;
+  color: #24343a;
+}
+
+.installer-size-option b {
+  font-size: 12px;
+  font-weight: 650;
+  color: #293b42;
+}
+
+.installer-size-option small {
+  font-size: 11px;
+  font-weight: 500;
+  color: #71838b;
+}
+
+.installer-method h4 {
+  font-size: 14px;
+  font-weight: 650;
+  color: #1e3038;
+}
+
+.installer-method p {
+  font-size: 12px;
+  font-weight: 450;
+  color: #5e7079;
+  line-height: 1.7;
+}
+
+.installer-hosting-note {
+  font-size: 12px;
+  font-weight: 450;
+  color: #536771;
+  line-height: 1.75;
+}
+
+.installer-instructions-heading {
+  font-size: 12px;
+  font-weight: 650;
+  color: #344b55;
+}
+
+.installer-instructions li {
+  font-size: 12px;
+  font-weight: 500;
+  color: #465c65;
+  line-height: 1.7;
+}
+
+.installer-instructions li::before {
+  font-size: 11px;
+  font-weight: 650;
+  color: #329bc8;
+}
+
+.installer-instructions code {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.installer-preview-status,
+.installer-download-status {
+  font-size: 11px;
+  font-weight: 500;
+}
